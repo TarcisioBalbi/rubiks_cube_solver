@@ -22,7 +22,7 @@ This application generates data by starting from a solved cube, scrambling it an
 Each movement is represented by a string following the pattern `side,direction', where:
 - side: 0 = front, 1 = back, 2 = upper, 3 = bottom, 4 = right, 5 = left
 - directions 0 = 90° clockwise , 2 = 90° counter-clockwise
-- 
+
 The parameters for this step are:
 - n_runs: number of times the process is repeated with a new cube.
 - n_moves: number of scrambling move made in each cube.
@@ -30,6 +30,7 @@ The parameters for this step are:
 
 # Model training
 The model is a simple random forest classifier, optimized by grid search, used as proof of concept. More complex models, specially ones with memory, can probably achieve better results.
+The position of each square of the cube is used as input for the model, whereas the movement is used as target, being a multiclass model.
 
 # Application
 The `play` function takes:
