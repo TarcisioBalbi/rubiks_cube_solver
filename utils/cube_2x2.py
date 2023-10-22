@@ -1,5 +1,8 @@
+from random import randint,choice
+
 import numpy as np
 import matplotlib.pyplot as plt
+import cv2
 
 white = (255,255,255)
 yellow = (255,255,0)
@@ -40,7 +43,7 @@ def colorCube(cube):
     return cCube
 
 
-def cubeView(cube,persist:bool=False):
+def cubeView(cube,persist:bool=False,window_name:str='Game'):
     
     view = np.zeros((3,8,6),np.uint8)
     c = colorCube(cube)
@@ -75,13 +78,13 @@ def cubeView(cube,persist:bool=False):
     view[:,6,3] = c[1,1,0]
     view[:,7,3] = c[1,1,1]
 
+    res = cv2.resize(np.swapaxes(view,2,0,), dsize=(600, 400), interpolation=cv2.INTER_NEAREST )
+    cv2.imshow(window_name,res)
     if persist:
-        plt.imshow(np.swapaxes(view,2,0))
+        cv2.waitKey(0)
+        cv2.destroyAllWindows()
     else:
-        plt.imshow(np.swapaxes(view,2,0))
-        plt.show(block = False)
-        plt.pause(1)
-        plt.close('all') 
+        cv2.waitKey(500) 
        
 def sidesMap(side):
     if side == 0:
@@ -279,4 +282,12 @@ def movement(cube,side,direction):
             
             
        
+    return cube
+
+def scramble_cube(cube,n_moves:int=5):
+    print('Scrambling cube')
+    for i in range(n_moves):
+        side = randint(0,5)
+        ori = choice([0,2])
+        cube= movement(cube,side,ori)
     return cube
